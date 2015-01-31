@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Bangladesh Savar building collapse - hopefully the last clothing factory disaster but certainly not the first</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Birgit and Matt's Website </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/misc.html">misc</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/bangladesh-savar-building-collapse-hopefully-the-last-clothing-factory-disaster-but-certainly-not-the-first.html" rel="bookmark"
+           title="Permalink to Bangladesh Savar building collapse - hopefully the last clothing factory disaster but certainly not the first">Bangladesh Savar building collapse - hopefully the last clothing factory disaster but certainly not the first</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-06-12T12:02:00+02:00">
+                Published: Wed 12 June 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/mattbirgit.html">mattbirgit</a>
+        </address>
+<p>In <a href="/category/misc.html">misc</a>. </p>
+
+</footer><!-- /.post-info -->      <div class="field field-name-taxonomy-vocabulary-2 field-type-taxonomy-term-reference field-label-above">
+<div class="field-label">
+Post Topics:
+
+</div>
+
+<div class="field-items">
+<div class="field-item even">
+[Blog/Technical (@mattbirgit.de)](http://mattbirgit.de/techblog)
+
+</div>
+
+<div class="field-item odd">
+[Blog/Photos, Music, Videos & Stories
+(@mattbirgit.de)](http://mattbirgit.de/creativeblog)
+
+</div>
+
+<p></div>
+</div>
+<div class="field field-name-body field-type-text-with-summary field-label-hidden">
+<div class="field-items">
+<div class="field-item even">
+<table align="center" border="0" rules="none">
+<tbody>
+<tr>
+<td style="text-align: center;">
+</p>
+<p>
+<img alt="Savar Building Collapse. Source:
+Flickr/Rijans" src="http://farm8.staticflickr.com/7294/8731789941_193d2b53aa_z.jpg" title="Savar Building Collapse. Source: Flickr/Rijans" /></p>
+<p></td>
+</p>
+<p>
+<td>
+</p></p>
+<p><img alt="" src="http://mattbirgit.de/sites/default/files/visualization.png" /></p>
+<p></p>
+<p>
+</td>
+</p>
+<p>
+</tr>
+<tr>
+<td style="text-align: center;">
+Savar Building Collapse. Source: Flickr/Rijans</p>
+<p></td>
+</p>
+<p>
+<td style="text-align: center;">
+A tool for exploring the data on disasters from 1990 to present.
+Clicking on a dot will show more data on each incident.</p>
+<p></td>
+</p>
+<p>
+</tr>
+</tbody>
+</table>
+I'm ashamed to say that I had precious little knowledge of clothing
+factory disasters in Bangladesh (particularly Dhaka, the capital) before
+the recent <a href="http://en.wikipedia.org/wiki/2013_Savar_building_collapse">Savar Building
+Collapse</a>
+that made a big impact in the headlines. Years ago I tried to
+demonstrate some concern about sweatshops by not buying stuff from GAP
+(not that I could really afford it anyway) but over the years I've
+suppressed the worries with the vague notion that after so much public
+concern, things must be better by now. I still can't tell you much about
+Sweatshop conditions, but Birgit and I did look into the history of
+disasters within the clothing industry in Bangladesh. We didn't have to
+look too far to find shocking catalogues of death tolls due essentially
+to poor building standards and inspection. A few reports that deal with
+the history of incidents and their causes are:</p>
+</p>
+
+<p><a href="http://www.cleanclothes.org/resources/publications/2012-11-hazardousworkplaces.pdf/at_download/file">Hazardous workplaces: Making the Bangladesh Garment industry
+safe</a></p>
+</p>
+
+<p><a href="http://www.fairwear.org/ul/cms/fck-uploaded/archive/2010-01/bangladesh_fwf_country_study.pdf">Fair Wear Foundation Background Study BANGLADESH, Fair Wear Foundation,
+2006</a></p>
+</p>
+
+<p>Wanting to do something, and, we freely admit, wanting to try out some
+web stuff for something useful and of interest to people, we put
+together a year-by-year visualization of the disasters. Most of them are
+in the area of Dhaka, but zooming out will reveal a couple in the port
+city of Chittagong aswell. We come to a total of 1801 deaths from 1990
+to 2013. Many death totals are disputed, and this number is probably
+quite conservative. The source(s) of the information and, where
+available, details on each incident can be viewed by clicking on the
+dots. You can take a look at the draft version here:
+<a href="http://clothing.norainnosun.de/">clothing.norainnosun.de</a>. This was a
+learning experience for us in multiple ways, concerning the technical
+difficulties there are a few comments below, if you're not interested in
+that sort of thing you probably can stop reading now!</p>
+</p>
+
+<p>We used this project as a way to try out
+<a href="http://www.cartodb.com/">CartoDB</a>, a system for quickly creating
+visualizations of geographical data. Although the visualization does
+still grab its data from a CartoDB database using their API, we quickly
+ran into the limits of what their visualization system can cope with.
+The main problem was that the creation of the layers displaying data is
+done automatically based on a query, which meant a new database query
+for different data sets (in our cases, each year). It is also done using
+rendered tiles, making everything slow (although I am new to this and
+can't be 100% certain that there isn't a way to do it with vector
+graphics). By doing the layer generation ourselves (using
+<a href="http://leafletjs.com/">Leaflet</a>, which CartoDB can also use),
+separately from the database query, we could easily generate vector
+graphics layers based on whatever data we wanted and have it displayed
+or not more or less instantly, which was necessary for the slider to
+work. What is however still very cool about CartoDB is that you can
+essentially do database queries directly with Javascript. Their
+georeferencing facilties were also good for getting the points on the
+right place on the map based on addresses. As for the stacked bar chart,
+that is done using <a href="http://d3js.org/">d3.js</a>, a great library for data
+plotting. It is (for me) horribly low level, but I'm gradually coming to
+understand it. Not enough however, to make my own dynamic stacked bar
+chart in a few minutes, for that we adapted <a href="http://bl.ocks.org/benjchristensen/1488375">code kindly placed online
+by Ben Christensen</a>.</p>
+<p></div>
+</div>
+</div>
+</p></p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
