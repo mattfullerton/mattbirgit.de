@@ -1,0 +1,125 @@
+/* 
+    Document   : style.css
+    Created on : 21.06.2012, 20:01:19
+    Author     : birgit
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.feed-source {
+    display: none;
+}
+.feed-item-categories
+{
+    display: none;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000;
+    font-size: 84%;
+}
+
+a {
+text-decoration: none;
+}
+
+a:link {
+color: #47456c;/*#e87e17*/
+text-decoration: none;
+}
+
+a:visited {
+color: #47456c;/*#005a8c;#e87e17*/
+text-decoration: none;
+}
+
+a:hover {
+color:#cc6699; /*#cc6600;*/
+}
+
+.topbardiv {
+    margin: 0px;
+    padding:0px;
+    line-height:0px;
+   
+}
+.layoutimages {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+#container3 {
+    float:left;
+    width:100%;
+    background:#d6ccbf;
+    overflow:hidden;
+    position:relative;
+}
+#container2 {
+    float:left;
+    width:100%;
+    background:#cabdad;
+    position:relative;
+    right:5.729%;
+}
+#container1 {
+    float:left;
+    width:100%;
+    background:#d6ccbf;
+    position:relative;
+    right:72.188%;
+}
+#col1 {
+    float:left;
+    width:22.083%;
+    position:relative;
+    left:77.917%; 
+    height: 466px;
+  
+}
+#col2 {
+    float:left;
+    width:72.188%;
+    position:relative;
+    left:77.917%;
+}
+#col3 {
+    float:left;
+    width:5.729%;
+    position:relative;
+    left:77.917%;
+}
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1 {
+font-size: 1.6em;
+}
+
+h2 {
+font-size: 1.5em;
+  
+}
+
+h3 {
+font-size: 1.3em;
+}
+
+h4 {
+font-size: 1.2em;
+}
+
+h5 {
+font-size: 1.1em;
+}
+
+h6 {
+font-size: 1em;
+}
+
+h1,h2,h3,h4,h5,h6 {
+padding:0;
+margin:0;
+}
