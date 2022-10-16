@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>AudioRecord plugin on Cordova/Phonegap 1.9.0</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Phonegap’s Media.startAudioRecord on ios records 16 bit stereo uncompressed WAV. Not exactly ideal for uploading afterwards. The AudioRecord..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/audiorecord-plugin-on-cordovaphonegap-190.html" rel="bookmark"
+             title="Permalink to AudioRecord plugin on Cordova/Phonegap 1.9.0">AudioRecord plugin on Cordova/Phonegap 1.9.0</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2012-10-28T19:49:00+01:00">
+                Published: 28/10/2012
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/ios.html">iOS</a> </p>
+</footer><!-- /.post-info -->        <p>Phonegap&#8217;s Media.startAudioRecord on ios records 16 bit stereo uncompressed WAV. Not exactly ideal for uploading afterwards. The <a href="https://github.com/phonegap/phonegap-plugins/tree/master/iOS/AudioRecord">AudioRecord plugin for ios</a> allows full access to the available Core Audio encoders. The installation instructions are less than required, so after piecing together some items from across the web, here are some edited instructions (if I knew my way around GitHub, I would try to add this directly to the plugin&#8217;s page):</p>
+<ol>
+<li>Make sure your PhoneGap Xcode project has been updated. [comment: whatever that means, I did not do this]</li>
+<li>Add the .h and .m files to your Plugins folder in your project, by dropping them into the folder in XCode itself</li>
+<li><del datetime="2012-10-28T19:31:21+00:00">Add the .js files to your &#8220;www&#8221; folder on disk, and add reference(s) to the .js files in your html file(s).</del> [This is not necessary, as we will do the link differently]</li>
+<li>Add the following to your <code>onDeviceReady()</code> function:</li>
+<p><code><br />
+Media.prototype.startRecordWithSettings = function(options) {<br />
+    Cordova.exec(null, null, "AudioRecord","startAudioRecord", [this.id, this.src, options]);<br />
+};<br />
+Media.prototype.stopRecordWithSettings = function() {<br />
+    Cordova.exec(null, null, "AudioRecord","stopAudioRecord", [this.id, this.src]);<br />
+};<br />
+</code></p>
+<li>Use this as a framework for modifying your existing media.startAudioRecord() and media.stopAudioRecord() usage &#8211; the file supplied should be .caf and not .wav</li>
+<p><code><br />
+var recordSettings = {<br />
+    "FormatID": "kAudioFormatAppleLossless",<br />
+    "SampleRate": 44100.0,<br />
+    "NumberOfChannels": 1,<br />
+    "LinearPCMBitDepth": 16<br />
+}<br />
+mediaRec.startRecordWithSettings(recordSettings);</p>
+<p>// Stop recording after 10 sec<br />
+var recTime = 0;<br />
+var recInterval = setInterval(function() {<br />
+   recTime = recTime + 1;<br />
+   setAudioPosition(recTime + " sec");<br />
+   if (recTime &gt;= 10) {<br />
+      clearInterval(recInterval);<br />
+      mediaRec.stopRecordWithSettings();<br />
+   }<br />
+}, 1000);<br />
+</code></p>
+<li>A list of the valid audio formats can be found within the AudioRecord.m file or with some more explanation at <a href="http://developer.apple.com/library/ios/#qa/qa1615/_index.html">http://developer.apple.com/library/ios/#qa/qa1615/_index.html</a></li>
+</ol>
+<p>Other References:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/11432815/cordova-1-7-ios-audiorecord-plugin">http://stackoverflow.com/questions/11432815/cordova-1-7-ios-audiorecord-plugin</a></li>
+<li><a href="http://docs.phonegap.com/en/2.1.0/guide_plugin-development_ios_index.md.html">http://docs.phonegap.com/en/2.1.0/guide_plugin-development_ios_index.md.html</a></li>
+</ul>
+</li>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

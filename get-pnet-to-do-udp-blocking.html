@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Get pnet to do UDP blocking</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Pnet is a MEX-file-based toolbox for Octave/MATLAB. The help instructions would lead you to believe that UDP reads block by default, but this..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/get-pnet-to-do-udp-blocking.html" rel="bookmark"
+             title="Permalink to Get pnet to do UDP blocking">Get pnet to do UDP blocking</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-01-07T15:47:00+01:00">
+                Published: 07/01/2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/matlab.html">MATLAB</a> <a href="/tag/udp.html">UDP</a> <a href="/tag/networking.html">Networking</a> </p>
+</footer><!-- /.post-info -->        <p><a href="http://www.mathworks.de/matlabcentral/fileexchange/345-tcpudpip-toolbox-2-0-6">Pnet</a> is a <a href="http://www.mathworks.de/de/help/matlab/matlab_external/introducing-mex-files.html">MEX-file</a>-based toolbox for Octave/MATLAB. <a href="http://www.mathworks.de/matlabcentral/fileexchange/345-tcpudpip-toolbox-2-0-6/content/tcp_udp_ip/pnet.m">The help instructions would lead you to believe that UDP reads block by default</a>, but this didn&#8217;t work for me: I had to specify a timeout. You can specify <a href="http://www.mathworks.de/de/help/matlab/ref/inf.html">Inf</a>, but given that <a href="http://stackoverflow.com/questions/4791144/how-to-stop-a-running-script-in-matlab#4793146">you can&#8217;t ctrl-c out of a program whilst the MEX part is running</a>, I&#8217;d recommend choosing a reasonable value (like 20, = 20 seconds).</p>
+<p>Here&#8217;s a simple example:<br />
+<code>pnet('closeall');<br />
+sock=pnet('udpsocket',10000);<br />
+pnet(sock,'udpconnect','127.0.0.1',1000);<br />
+pnet(sock,'setreadtimeout',20)<br />
+pnet(sock,'printf','*r');<br />
+pnet(sock,'writepacket');<br />
+pnet(sock,'readpacket');<br />
+data = pnet(sock, 'read')</code></p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

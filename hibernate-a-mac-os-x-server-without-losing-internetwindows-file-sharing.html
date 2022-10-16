@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Hibernate a Mac OS X server without losing internet/windows file sharing</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Internet Sharing and SMB stop a mac going to sleep. If you want to find out what’s stopping your mac going to sleep, you can run pmset -g..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/hibernate-a-mac-os-x-server-without-losing-internetwindows-file-sharing.html" rel="bookmark"
+             title="Permalink to Hibernate a Mac OS X server without losing internet/windows file sharing">Hibernate a Mac OS X server without losing internet/windows file sharing</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-01-14T22:39:00+01:00">
+                Published: 14/01/2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/os-x.html">OS X</a> <a href="/tag/energy.html">Energy</a> </p>
+</footer><!-- /.post-info -->        <p>Internet Sharing and SMB stop a mac going to sleep. If you want to find out what&#8217;s stopping your mac going to sleep, you can run<code> pmset -g assertions</code>. Furthermore, the mac does not allow hibernation. I&#8217;m a bit over-energy-conscious, so here is my solution to having an energy-efficient home server.<br />
+<span id="more-11"></span><br />
+Tell power management to hibernate instead of sleep (optional): <code>sudo pmset -a hibernatemode 25</code></p>
+<p>Create a new file, like &#8220;gotosleep.sh&#8221;, and insert these commands:<br />
+<code><del datetime="2013-02-19T05:50:20+00:00">launchctl unload -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist<br />
+launchctl unload /System/Library/LaunchDaemons/smbd.plist<br />
+pmset sleepnow<br />
+launchctl load /System/Library/LaunchDaemons/smbd.plist<br />
+launchctl load -w /System/Library/LaunchDaemons/com.apple.InternetSharing.plist</del></code><br />
+<code><br />
+launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist<br />
+launchctl unload /System/Library/LaunchDaemons/com.apple.InternetSharing.plist<br />
+launchctl unload /System/Library/LaunchDaemons/com.apple.smbd.plist<br />
+pmset sleepnow<br />
+sleep 120s<br />
+launchctl load /System/Library/LaunchDaemons/com.apple.InternetSharing.plist<br />
+launchctl load /System/Library/LaunchDaemons/com.apple.smbd.plist<br />
+launchctl load -w /System/Library/LaunchDaemons/org.apache.httpd.plist<br />
+</code></p>
+<p>Then make the file executable:<br />
+<code>chmod 700 gotosleep.sh</code></p>
+<p>When you want the mac to sleep for the (e.g.) night, just enter:<br />
+<code>sudo ./gotosleep.sh</code><br />
+at the command prompt. The mac will sleep a little while after the first three commands (during the pause), and upon manual restarting (power button) will continue with the last three. So sleep is possible due to disabling the services, and they start up again afterwards. If you are running other services, just google around for the appropriate shell command. I&#8217;m not too sure about smbd &#8211; it seemed to be necessary, but I always get a message that it&#8217;s already started.</p>
+<p>If you use hibernation, you can even unplug/switch off the power&#8230;! I haven&#8217;t tried scheduled wake-up yet, but it might be a nice feature to have &#8211; manual switch off but always ready for service by breakfast.</p>
+<p>UPDATE: We&#8217;ve been having some problems that although Internet Sharing appears to work after restarting, it actually has to be unloaded and loaded before working after waking up. For now I took out the &#8220;load&#8221; items in the script and start SMB and Internet Sharing manually, I&#8217;ll update later with a better solution.</p>
+<p>2nd UPDATE: This wasn&#8217;t the only problem, but overall I think the edited version above is now working well.</p>
+<p>References:</p>
+<ul>
+<li>Find out what&#8217;s keeping your Mac awake: <a href="http://hints.macworld.com/article.php?story=20120701234338952">http://hints.macworld.com/article.php?story=20120701234338952</a></li>
+<li>Change hibernation mode settings on MacBooks: <a href="http://www.rawcomputing.co.uk/mactips119.html">http://www.rawcomputing.co.uk/mactips119.html</a></li>
+<li>Sleep a Mac from the Command Line: <a href="http://osxdaily.com/2012/07/22/sleep-a-mac-from-the-command-line/">http://osxdaily.com/2012/07/22/sleep-a-mac-from-the-command-line/</a></li>
+<li>How to disable Windows Sharing &#8212; for real: <a href="https://discussions.apple.com/thread/880022?start=0&amp;tstart=0">https://discussions.apple.com/thread/880022?start=0&amp;tstart=0</a></li>
+<li>Start/stop internet sharing from a script?: <a href="http://apple.stackexchange.com/questions/2488/start-stop-internet-sharing-from-a-script">http://apple.stackexchange.com/questions/2488/start-stop-internet-sharing-from-a-script</a></li>
+</ul>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

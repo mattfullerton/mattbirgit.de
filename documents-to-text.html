@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>A public web service for document to text conversion including OCR</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Getting text out of documents Last year I was working on beta.offenedaten.de, a catalog of data catalogs in Germany using the CKAN platform as the..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/documents-to-text.html" rel="bookmark"
+             title="Permalink to A public web service for document to text conversion including OCR">A public web service for document to text conversion including OCR</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-02-21T12:00:00+01:00">
+                Published: 21/02/2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/pdf.html">PDF</a> <a href="/tag/ocr.html">OCR</a> <a href="/tag/tika.html">Tika</a> <a href="/tag/web-services.html">Web services</a> <a href="/tag/docker.html">Docker</a> </p>
+</footer><!-- /.post-info -->        <h2>Getting text out of documents</h2>
+<p>Last year I was working on <a href="http://beta.offenedaten.de">beta.offenedaten.de</a>, a catalog of data catalogs in Germany using the <a href="http://www.ckan.org/">CKAN</a> platform as the basis. Although the topic of <a href="https://lists.okfn.org/pipermail/ckan-dev/2014-September/008051.html">how to enable full-text search of documents in CKAN data catalogs</a> is somewhat open, I wanted to be able to collect the full text of open data resources for searching. We can't assume that PDFs are always nice PDFs full of text: they can just as easily be scans of paper documents without any optical character recognition (OCR) having taken place. So when we extract text from documents, it would be nice to have an option to do OCR too. This is a need common to other projects we have at <a href="http://www.okfn.de">OKF Germany</a>, and, after discussion on the <a href="https://lists.okfn.org/pipermail/okfn-labs/2014-October/001491.html">Labs list</a>, apparently something people would like to have.</p>
+<h2>Lend me your files, I send you back text</h2>
+<p>In short, there is now a web service available for converting <a href="http://tika.apache.org/1.8/formats.html">a multitude of document types</a> to simple text. It lives at:</p>
+<p>http://beta.offenedaten.de:9998/tika</p>
+<p>To test it, just throw some images with text in them at it. For example, on a terminal on Mac or Linux:</p>
+<div class="highlight"><pre><span></span><code>curl -T tiff_example.tif http://beta.offenedaten.de:9998/tika
+</code></pre></div>
+
+<h3>How it was built</h3>
+<p>My involvement in the code for this project was zero. I just took the <a href="http://wiki.apache.org/tika/TikaJAXRS">web server part</a> of the developer version of the <a href="http://tika.apache.org/">Apache Tika Project</a> and put it on a server. OCR support using <a href="https://code.google.com/p/tesseract-ocr/">Tesseract</a> has <a href="http://wiki.apache.org/tika/TikaOCR">recently been added</a> to Tika.</p>
+<h3>Roll your own</h3>
+<p>For intensive use of the service or to include it in your own infrastructure, you can use this <a href="https://registry.hub.docker.com/u/mattfullerton/tika-tesseract-docker/">Docker image</a>, built on this <a href="https://github.com/mattfullerton/tika-tesseract-docker">GitHub Repository</a>. In case you don't know <a href="https://www.docker.com/whatisdocker/">what Docker is</a>, don't ask me, as I won't do a great job of explaining it to you. I'm sure there's a few Docker experts out there who could improve the Dockerfile setup: pull requests <a href="https://github.com/mattfullerton/tika-tesseract-docker">on GitHub</a> are welcome!</p>
+<h3>Improvements</h3>
+<p>The big missing feature from this, and from Tika generally, is the ability to perform OCR on a PDF when little or no text comes back. There is <a href="https://github.com/okfn/ideas/issues/88#issuecomment-71388714">a trick to get the OCR on a PDF</a>, but your application will need to decide when to employ it, for example based on the non-OCR results.</p>
+<h3>Get involved</h3>
+<p>A quick look at the <a href="https://github.com/okfn/ideas/issues/88">discussion on GitHub</a> shows how many ideas there are floating around to improve open document processing tooling on the web. This is just one tiny piece of that puzzle. More concretely, it would be great to get some Open Knowledge involvement in the Tika project going to support them, particularly with the "no text found in PDF" conundrum above. Just <a href="http://tika.apache.org/contribute.html">get in touch with them</a> directly or with me via the <a href="https://github.com/okfn/ideas/issues/88">GitHub issue</a> or <a href="mailto:matt.fullerton@gmail.com">old-fashioned email</a>.</p>
+<h2>Avoiding the OCR problem in the first place</h2>
+<p>I thought it might be worth mentioning to anyone involved in putting open data and open documents on the web that there <a href="http://computers.tutsplus.com/tutorials/how-to-ocr-text-in-pdf-and-image-files-in-adobe-acrobat--cms-20406">is a procedure for adding the text to a scan-based PDF</a>, using Adobe Acrobat. If anyone knows of an open source solution for this (i.e. embedding and attaching the OCR text in the images in the PDF), I would love to <a href="mailto:matt.fullerton@gmail.com">hear from you</a>.</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>iPAQ kicking the iPhone's ass</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="I thought I’d go for a provocative title, but let’s say from the outset that the iPhone is clearly better in many, many ways than the device I’m..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/ipaq-kicking-the-iphones-ass.html" rel="bookmark"
+             title="Permalink to iPAQ kicking the iPhone's ass">iPAQ kicking the iPhone's ass</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2009-10-24T23:24:00+02:00">
+                Published: 24/10/2009
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/mobile.html">Mobile</a> <a href="/tag/windows-mobile.html">Windows Mobile</a> </p>
+</footer><!-- /.post-info -->        <p>I thought I&#8217;d go for a provocative title, but let&#8217;s say from the outset that the iPhone is clearly better in many, many ways than the device I&#8217;m about to &#8216;ramble&#8217; about&#8230;</p>
+<p>My girlfriend, Birgit, has an iPhone. What&#8217;s more, she has a contract where you can pay &#8364;30 once, and you get a second SIM card. A second sim card, with unlimited data plan!? Now this seems like too good an opportunity to miss. My original motivation for this was receiving a new laptop that had a sim card slot, for mobile internet (my workplace is not quite so kind as to put something in it&#8230;). Part of the motivation too was the length of time it took to get internet in my apartment (its hard when there&#8217;s no telephone socket&#8230;). At first I put the sim card in and had a lot of fun. A little too much fun: T-Mobile SMS&#8217;d Birgit to say her usage was unreasonable and they were reducing her bandwidth.</p>
+<p>Of course, seeing this iPhone all the time got me thinking&#8230; in America I could use a little bit of free WAP from T-Mobile, but I&#8217;d inherited Birgit&#8217;s old American Nokia which claimed to do real web browsing. Also, knowing a tiny bit about phones, I knew there were these things called data cables and that maybe I could get mobile phone internet and mobile laptop internet all at once. This had the slight disadvantage that I had to use another phone/sim card to actually phone, otherwise I&#8217;d be calling on Birgit&#8217;s number. I&#8217;ll spare you the fun of how this all worked out, suffice to say:</p>
+<ul>
+<li>The Nokia web browser was unbelievably slow</li>
+</ul>
+<ul>
+<li>It was missing the radio band that T-Mobile use outside of cities&#8230; so it wasn&#8217;t much good for my frequent train journeys</li>
+</ul>
+<ul>
+<li>Don&#8217;t underestimate how capable your old phone might be with a data cable and a data plan &#8211; if it hadn&#8217;t have been for this band issue I might have been happy</li>
+</ul>
+<p>At the same time, Birgit didn&#8217;t need her old iPaq anymore &#8211; after all she had an iPhone now (but actually I&#8217;d used it long before she had the iPhone, she is someone who firmly believes that everything should be in one device instead of two, so the idea of carrying a phone and a PDA didn&#8217;t appeal).</p>
+<p>Now, this iPaq is quite old &#8211; no wifi, no sim card slot, no camera, and the Bluetooth profiles don&#8217;t support connecting to the internet over an access point, but they do over a connection to another phone. But&#8230; the Nokia didn&#8217;t have Bluetooth. One can browse the internet if you use activesync over bluetooth&#8230; but that isn&#8217;t exactly mobile. There were initially two options I considered. One was to build a cable to match the serial ports (lots of signal conversion that has to be done), and the second was to buy an extension pack to take a sim card and turn the iPaq into a phone. The former was complicated (though I didn&#8217;t rule it out) and the second was difficult because the packs are few and far between: to buy them new/refurbished was approaching $299, and the Ebay opportunities usually involved buying an iPaq with them, which seemed a bit silly!</p>
+<p>So, after realizing I really liked the Windows Mobile platform, some more pondering and automated ebay searching, I picked up a much newer iPaq (Windows Mobile 2003 instead of 2002) for around &#8364;50. This particular model (an hw6510) was usually selling for much more than that, and the one I got was in a real state &#8211; dirty, and the screen doesn&#8217;t show green. After some cleaning it was a lot less disgusting, although the green was still missing(!) Apart from that it worked great, as a modem, as a note taker (it has a built in keyboard, with real keys), a radio listener, and as I recently discovered, a GPS-powered Google Maps navigator, just like an iPhone!</p>
+<p>The main subject of this post is about getting Java working on the phone, not because that&#8217;s the most interesting thing necessarily, but because it involved so much googling that I felt I should archive the steps and useful info somewhere so I don&#8217;t forget them. It&#8217;s also a vaguely interesting issue in general for mobile technology, because<a href="http://en.wikipedia.org/wiki/MIDlet"> Java &#8216;MIDlet&#8217; packages</a> were a really good way for services to provide cross-platform applications for phones. However, the future now looks quite bleak. Microsoft never supported them explicitly, <a href="http://getinfoupdate.blogspot.com/2008/10/midlets-on-iphone.html">the iPhone doesn&#8217;t support them</a>, and the Blackberry <a href="http://developers.sun.com/mobility/midp/articles/blackberrydev/#2">provides extra classes</a> so that the system still works as a delivery mechanism, but only for a Blackberry. The big supporter of MIDlets is Nokia.</p>
+<p>So, my iPAQ didn&#8217;t want anything to do with MIDlets. The previous one had come with a 3rd party JVM called Jeode, but my new iPaq didn&#8217;t come with a CD, and the internet suggested the CD that would have come with it did not contain the wealth of goodies that the old one possessed (for example, a Sega Game Gear emulator!). And alas, the old software would not run on the new iPAQ.</p>
+<p>For a good overview of what the options are, I refer to this <a href="http://www.smartphonemag.com/cms/blogs/3/2266">pretty comprehensive post</a>. The conclusion is that most available JVMs have some defficiencies, but that Esmertec Jbed is the best, but only if you have Windows Mobile 5 or better. Next one down, and basically the only option for me, is the IBM J9. Jeode appear to have disappeared completely off the radar.</p>
+<p>Obtaining J9 is a little tricky, unless you&#8217;re willing to part with $25 (or possibly $5.99, I can&#8217;t tell which version I&#8217;m supposed to buy) and hope that it works (again, I can&#8217;t tell which one I&#8217;m supposed to buy&#8230;!). I&#8217;m not sure if <a href="http://www.ibm.com/developerworks/websphere/zones/wireless/weme_eval_runtimes.html">IBM have removed it completely</a> or if its just for people outside of the US (I believe its the former), but it was never designed to be free as such. IBM gave it away as part of a 30 day trial of a larger development package which included software for mobile device deployment, WebSphere Everyplace Micro Environment MIDP 2.0. Some might already call it a grey area, but out of curiousity and fear that it wouldn&#8217;t work, I searched for provision of the necessary files elsewhere. Eventually I was successful (that part I won&#8217;t link to here&#8230; ) and after a lot of pain with a .cab file that wouldn&#8217;t work (I had to expand the files and add the registry keys manually), it worked!</p>
+<p>So&#8230; why!? I thought I&#8217;d leave this part to last. There is one main reason people try to get this working on their phones: <a href="http://www.opera.com/mini/">Opera Mini</a>. As opposed to Opera Mobile, which is also a great browser, it is free, and the webpages are compressed and formatted via Opera, so it runs very fast. Of course in some cases you might not want pages to be squished into one column, but there are many cases where you might, and for pages already formatted that way, all you see is a speed/phone bill advantage. So far I also found a few other cool MIDlet apps: GMail, <a href="http://www.mgmaps.com/">Mobile GMaps</a> and <a href="http://www.rmv.de/coremedia/generator/RMV/Fahrplaene/RMV2go">RMV2Go</a> (which will only be of interest if you live in Frankfurt). The links for GMail are below, as they don&#8217;t tend to direct you to it anymore:</p>
+<p>http://gmail.com/app/v1.0.0/en/gmail-g.jar</p>
+<p>http://gmail.com/app/v1.0.0/en/gm-Generic-Advanced_MIDP2.jad</p>
+<p>A little tip: with the IBM software, it will accept .jar files directly aswell as .jad, and if you want to installed directly from the phone (which is sometimes easier), use file:/// (with 3 slashes!) then the path on the phone. <a href="http://www.markus.brosch.net/?p=111">Markus Brosch&#8217;s blog</a> gives a nice background/history using the J9 software, and also gives some example of how to create a link in the Programs menu to launch a particular app directly. I&#8217;m still seriously considering buying a copy, if I knew exactly what I should buy &#8211; the Handango links below all claim the software isn&#8217;t compatible with my device:</p>
+<p>http://www.handango.com/catalog/ProductDetails.jsp?storeId=2218&#038;productId=140968</p>
+<p>http://www.handango.com/catalog/ProductDetails.jsp?storeId=2218&#038;productId=140997</p>
+<p>http://www.handango.com/catalog/SearchResults.jsp?storeId=2218&#038;Ntt=ibm</p>
+<p>So in conclusion, why does the iPAQ kick the iPhone&#8217;s ass? Well, it doesn&#8217;t really, but here&#8217;s a few advantages I&#8217;ve found so far:</p>
+<ul>
+<li>The main topic of this post: I can run software, any software that someone cares to write, such as a JVM. It sounds like <a href="http://getinfoupdate.blogspot.com/2008/10/midlets-on-iphone.html">SUN have a JVM ready for the iPhone</a>, but they are prohibited from releasing it.</li>
+</ul>
+<ul>
+<li>Apps run in the background automatically, so I can tune in to the radio on Windows Media Player and then go do something else</li>
+</ul>
+<ul>
+<li>Syncing with Outlook is easy</li>
+</ul>
+<ul>
+<li>Tethering is easy, in fact it will now be prohibited on Birgit&#8217;s phone on iPhone OS 3.1, even though she is one of the early customers who are actually allowed to do it (and getting it working on OS 3.0 wasn&#8217;t easy either)</li>
+</ul>
+<ul>
+<li>I can access any part of the file system</li>
+</ul>
+<ul>
+<li>I can insert SD cards</li>
+</ul>
+<ul>
+<li>I can access Bluetooth access points (though this is hardly an advantage when you consider I can&#8217;t access wifi access points without a plug in card&#8230;!)</li>
+</ul>
+<ul>
+<li>I have a REAL keyboard as well as a touchscreen (though not multitouch, of course)!</li>
+</ul>
+<p>I think I&#8217;m still finding this last one the biggest difference. As for the coolest thing, I&#8217;m still finding the GPS incredible, its one of those things I never thought I&#8217;d need, but it makes finding things in a city I don&#8217;t well very easy&#8230;</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

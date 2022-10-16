@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Compiling pnet (or any other MEX file) with Visual Studio Express and Octave</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Octave supports MEX files, just like MATLAB. Here’s how to compile a MEX file (in my case pnet): Run Developer Tools (2012) Change Octave’s math.h..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/compiling-pnet-or-any-other-mex-file-with-visual-studio-express-and-octave.html" rel="bookmark"
+             title="Permalink to Compiling pnet (or any other MEX file) with Visual Studio Express and Octave">Compiling pnet (or any other MEX file) with Visual Studio Express and Octave</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-01-07T15:31:00+01:00">
+                Published: 07/01/2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/matlab.html">MATLAB</a> <a href="/tag/c.html">C</a> <a href="/tag/networking.html">Networking</a> </p>
+</footer><!-- /.post-info -->        <p><a href="http://www.gnu.org/software/octave/doc/interpreter/Mex_002dFiles.html">Octave supports MEX files</a>, just like MATLAB. Here&#8217;s how to compile a MEX file (in my case <a href="http://www.mathworks.de/matlabcentral/fileexchange/345-tcpudpip-toolbox-2-0-6">pnet</a>):</p>
+<ul>
+<li>Run Developer Tools (2012)</li>
+<li><a href="http://stackoverflow.com/questions/12697748/compiling-mex-or-oct-files-using-mkoctfile-with-octave-and-visual-studio-2010#12697807">Change Octave&#8217;s math.h to specify correct MS math.h</a></li>
+<li>Add Octave &#8216;bin&#8217; folder to path</li>
+<li>Change to the folder with the files</li>
+<li>Run command:<br />
+<code>mkoctfile --mex -lws2_32.lib -DWIN32 -v -o pnet pnet.c</code></li>
+<li>The last command fails because a random .lib gets added somehow. Run manually (change paths for your installation):<br />
+<code>link -nologo -DLL -out:pnet.mex pnet.o ws2_32.lib -LIBPATH:C:\bin\Octave-3.6.4\lib\octave\3.6.4 -LIBPATH:C:\bin\Octave-3.6.4\lib octinterp.lib octave.lib cruft.lib -export:mexFunction -incremental:no dirent.lib msvcmath.lib</code><br />I&#8217;ve forgotten how I figured that out, so sorry if I&#8217;m not giving credit if it&#8217;s due somewhere!</li>
+</ul>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

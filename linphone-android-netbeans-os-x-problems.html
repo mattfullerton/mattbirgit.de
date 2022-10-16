@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Linphone Android + Netbeans + OS X = problems</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Linphone is an open-source VoIP API. They have a git project for Android, and I wanted to develop on OS X (Netbeans). Not a great setup for..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/linphone-android-netbeans-os-x-problems.html" rel="bookmark"
+             title="Permalink to Linphone Android + Netbeans + OS X = problems">Linphone Android + Netbeans + OS X = problems</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-01-15T07:29:00+01:00">
+                Published: 15/01/2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> <a href="/tag/os-x.html">OS X</a> <a href="/tag/mobile.html">Mobile</a> </p>
+</footer><!-- /.post-info -->        <p>Linphone is an open-source VoIP API. They have a git project for Android, and I wanted to develop on OS X (Netbeans). Not a great setup for success, but of course I didn&#8217;t know that until I&#8217;d started. I hadn&#8217;t had much trouble developing for Android on the mac before.<br />
+<span id="more-12"></span><br />
+So, some tips to spare you hours of pain:</p>
+<ul>
+<li>Make sure you have the latest Android tools/SDK installed</li>
+<li>Install the Google NDK, the project includes C code</li>
+<li>Clone the git repository: <code>git clone git://git.linphone.org/linphone-android.git --recursive</code>
+<li>Modify the file &#8220;submodules/externals/libvpx/build/make/gen_asm_deps.sh&#8221; according to <a href="http://lists.gnu.org/archive/html/linphone-developers/2012-10/msg00076.html">this link</a>, in short, change this line:</li>
+<ul>
+<li><code>includes=$(egrep -i "include +\"?+[a-z0-9_/]+\.${sfx}" $srcfile |</code></li>
+<li><code>includes=$(egrep -i "include +\"?[a-z0-9_/]+\.${sfx}" $srcfile |</code></li>
+</ul>
+<li>Follow the readme file<del datetime="2013-05-04T20:54:52+00:00"> to get the sources prepared and run the NDK stuff</del>, this simply involves running make and make install if you want to test on a device. It seems to not be necessary to manually run ./prepare-sources and ndk-build, but you do need to add the things to your path as described by the readme file.</li>
+<li><del datetime="2013-05-04T20:54:52+00:00">Don&#8217;t worry about an error you may receive that comes during <code>./prepare-sources</code>. It is to do with AudioStreamer and is only a problem if you need SILK support*. It comes at the end of other preparation, so it can be assumed that the other, important stuff was successful*</del> &#8211; This doesn&#8217;t happen to me anymore <img alt=":)" class="wp-smiley" src="http://mattf.surmise.co.uk/wp-includes/images/smilies/icon_smile.gif" /></li>
+<li><del datetime="2013-05-04T20:54:52+00:00">Run &#8220;android update project&#8221; on the project folder</del></li>
+<li><del datetime="2013-05-04T20:54:52+00:00">Edit the Makefile to find the <code>$(NUMCPUS)</code> call, remove it and replace it with the number of cores/CPUs you have (see below** for the explanation)</del></li>
+<li>Run <code>make</code>***</li>
+<li>Open the project in Netbeans, assuming you have the nbandroid plugin<del datetime="2013-05-12T11:43:57+00:00"> &#8211; my method is still to create a project and replace the contents, but I don&#8217;t think that&#8217;s necessary</del></li>
+<li>Edit the custom_rules.xml and comment out the sections <code>target name="build-libs"</code> and <code>target name="-post-compile"</code> (using <code><!-- --></code>)***</li>
+</ul>
+<p>It&#8217;s quite possible I forgot something, so if you run into problems, leave a comment and I&#8217;ll try and jog my memory accordingly</p>
+<p>Remaining issues:</p>
+<ul>
+<li>I have to clean every time before building, otherwise a file or files are in the way of the packaging process</li>
+</ul>
+<p><del datetime="2013-05-04T20:54:52+00:00">*<a href="http://lists.gnu.org/archive/html/linphone-developers/2011-11/msg00099.html">http://lists.gnu.org/archive/html/linphone-developers/2011-11/msg00099.html</a></del></p>
+<p><del datetime="2013-05-04T20:54:52+00:00">**The script uses /proc/cpuinfo to get the number of CPUs. BSD/OS X doesn&#8217;t use the /proc file system, so this is not available. You can find out how many CPUs you have by running <code>sysctl hw.physicalcpu</code> (<a href="http://stackoverflow.com/questions/1715580/how-to-discover-number-of-cores-on-mac-os-x">http://stackoverflow.com/questions/1715580/how-to-discover-number-of-cores-on-mac-os-x</a>), and change the Makefile accordingly. If you were less lazy, you would change it to actually calculate it instead of hardcoding. Based on the advice on the Stackoverflow page, that should be possible.</del></p>
+<p>***This was necessary for me because I couldn&#8217;t figure out how to add the NDK tools to the path such that Netbeans sees them. Eclipse has an option to add the path to the NDK (<a href="http://stackoverflow.com/questions/11825534/set-build-path-in-eclipse-for-ndk-program">http://stackoverflow.com/questions/11825534/set-build-path-in-eclipse-for-ndk-program</a>), so for Eclipse users this, and running <code>make</code> manually, shouldn&#8217;t be necessary</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

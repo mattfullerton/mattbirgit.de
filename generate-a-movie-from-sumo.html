@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Generate a movie from SUMO</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="SUMO, the open-source traffic simulation tool, does not have a simple option to output a movie. Using TraCI, the UDP-based control interface for..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/generate-a-movie-from-sumo.html" rel="bookmark"
+             title="Permalink to Generate a movie from SUMO">Generate a movie from SUMO</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-06-14T18:03:00+02:00">
+                Published: 14/06/2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/productivity.html">Productivity</a> <a href="/tag/sumo.html">SUMO</a> <a href="/tag/mobility.html">Mobility</a> <a href="/tag/traffic-simulation.html">Traffic Simulation</a> </p>
+</footer><!-- /.post-info -->        <p><a href="http://sumo.sourceforge.net/">SUMO</a>, the open-source traffic simulation tool, does not have a simple option to output a movie. Using <a href="http://sourceforge.net/apps/mediawiki/sumo/?title=TraCI">TraCI</a>, the UDP-based control interface for SUMO, you can quickly generate a set of images from your simulation:</p>
+<p><code><br />
+import traci<br />
+import sys<br />
+import subprocess</p>
+<p>#change if necessary<br />
+PORT = 8816</p>
+<p>sumoProcess = subprocess.Popen("C:\\path\\to\\sumo-gui \"C:\\path\\to\\simfile.sumocfg\"", shell=True, stdout=sys.stdout)</p>
+<p>print "SUMO Started"</p>
+<p>traci.init(PORT)<br />
+step = 0<br />
+#Please note these numbers are x100 milliseconds only because the SUMO simulation is set to have timesteps of 0.1s - i.e. the numbers are not in time but in timesteps<br />
+#Set movie generation end<br />
+while step 25000): traci.gui.screenshot("View #0", "..\\figures\\figurepath\\sumovideo\\sumo2Dvideo"+str(step)+".png")<br />
+   traci.simulationStep()<br />
+   step += 1</p>
+<p>traci.close()<br />
+</code></p>
+<p>Once this is done, you&#8217;ll have a set of images. Just open the first one in <a href="http://virtualdubmod.sourceforge.net/">Virtualdub Mod</a>, and it will show you all of them as a movie which you can output to the format of your choice &#8211; for example <a href="http://mattf.surmise.co.uk/2013/06/14/generating-html-5-videos-for-chrome-with-virtualdub-mod/">.webm</a>.</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

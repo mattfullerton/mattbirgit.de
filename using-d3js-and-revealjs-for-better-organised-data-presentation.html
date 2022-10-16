@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Using D3.js and reveal.js for better organised data presentation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="D3.js is a Javascript library for attaching data to web elements for the purposes of visualising the data. Once the visualisation is more than a..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/using-d3js-and-revealjs-for-better-organised-data-presentation.html" rel="bookmark"
+             title="Permalink to Using D3.js and reveal.js for better organised data presentation">Using D3.js and reveal.js for better organised data presentation</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-06-14T19:09:00+02:00">
+                Published: 14/06/2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/data-visualization.html">Data Visualization</a> </p>
+</footer><!-- /.post-info -->        <p><a href="http://d3js.org/">D3.js</a> is a Javascript library for attaching data to web elements for the purposes of visualising the data. Once the visualisation is more than a little complicated, this usually means generating SVG elements. SVG (<a href="http://en.wikipedia.org/wiki/Scalable_Vector_Graphics">Scalable Vector Graphics</a>) is a vector graphics format &#8211; it&#8217;s a text based description of lines, points and so on. Due its nature, it is scalable in size without any loss in quality because the elements are simply redrawn.</p>
+<p>I&#8217;m (slowly) putting together a PhD thesis at the moment, as well as occasionally having to present presentations. One thing that has always infuriated me about research is the clutter that arises from multiple programming languages, scripts, graphics outputs, versions of files, presentations and papers. You think to yourself, where is that nice figure I made of [insert great discovery here], or you wonder which version of a script actually led to a particular figure. Of course, decent file organisation is important, but I think part of the problem also comes from figures inevitably getting duplicated depending on their use. A publisher might need the figure in high-res PNG or PDF or EPS, and once a figure is in Powerpoint you often lose track of where it came from. And then there is the increasing push to put stuff online.</p>
+<p>D3 is great at generating figures, independent of the data source, and its a natural fit for displaying data on the web. But programmable SVG files seem like something too good to only use on the web. I&#8217;ve also come round to the idea that HTML displayed on Chrome in full-screen mode is a better fit for me that Powerpoint. That&#8217;s partly due to some of the above problems, but also for the same reasons that people use LaTeX instead of Word. In the end its a personal choice, I&#8217;m happy to admit that LaTeX and HTML have their disadvantages compared to all-in-one tools like Word and Powerpoint. I was using my own cobbled-together solution until I discovered I was only reinventing the wheel. There are <a href="http://zoomzum.com/6-best-html5css3-presentation-frameworks/">several solutions out there</a>, but I like <a href="http://lab.hakim.se/reveal-js/#/">reveal.js</a> a lot, and was able to adapt it to look suitably similar (without removing all of its innovative concepts!) to our department&#8217;s Powerpoint template pretty easily.</p>
+<p>Anyway, now that most of my workflow can use named files for displaying graphics (presentations and text documents) I decided I wanted a way to have my scripts output data for plotting (so I&#8217;m programming language neutral), plot it with D3, and as automatically-as-possible generate identical versions in SVG, PDF and PNG. SVG is for the web or posters (i.e. Illustrator), PDF is for LaTeX and PNG is for, well, everything else, for example Powerpoint, which (no man being an island), we can never escape.</p>
+<p>This is how it works:</p>
+<li>The data sits in a CSV file.</li>
+<li>An appropriate HTML file contains the D3 plotting code. So far I use one HTML file per plot; it seems every figure is different enough to warrant that, but of course some bits could be put into a common .js file to avoid duplication.</li>
+<li>I run a single Python script with three arguments: <code>python outputfiles.py [source html file] [html element name] [output prefix]</code></li>
+</ul>
+<p>I then end up with the three files: <code>[image].svg</code>, <code>[image].pdf</code>, <code>[image].png</code></p>
+<p>So, what&#8217;s going on in this Python script?</p>
+<p><code><br />
+import sys<br />
+import cairosvg<br />
+from subprocess import call</p>
+<p>source = sys.argv[1]<br />
+element = sys.argv[2]<br />
+target = sys.argv[3]</p>
+<p>command = "../bin/phantomjs ../lib/extract.js \"" + source + "\" " + element + " &gt;&gt; \"" + target + ".svg\""</p>
+<p>call(command, shell=True)</p>
+<p>svg = open(target + ".svg").read()<br />
+fout = open(target + ".png",'w')<br />
+cairosvg.svg2png(bytestring=svg,write_to=fout)</p>
+<p>svg = open(target + ".svg").read()<br />
+fout = open(target + ".pdf",'w')<br />
+cairosvg.svg2pdf(bytestring=svg,write_to=fout)<br />
+</code></p>
+<p><a href="http://phantomjs.org/">PhantomJS</a> is used to run <a href="https://blogs.law.harvard.edu/jreyes/2012/12/13/render-d3-js-driven-svg-server-side/">a piece of Javascript (extract.js)</a> without a browser. This Javascript can extract any named element in the page and write it to a file, in my case an SVG file. Then, the <a href="http://cairosvg.org/">cairosvg module</a> (which requires the pycairo module; I don&#8217;t want to give any advice on adding modules to your Python environment as I&#8217;m not a Python guru and spent a lot of time messing around until it was installed&#8230; Google is your friend, as they say) lets us write a PNG and PDF file.</p>
+<p>One very important point: do your SVG styling using <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style"><code>.style("attribute", "value")</code></a> function calls and not using style sheets. If you use style sheets, your SVG is being styled by the page and the styles are not integrated into the SVG element, which becomes your file, and which will end up looking very different from what you see on the webpage.</p>
+<p>Finally, I have everything set up in a slightly pedantic folder structure (I&#8217;ve lost count of how many new miracle folder structures I&#8217;ve come up with, but this is perhaps the most all-encompassing yet) which looks like:</p>
+<ul>
+<li>bin</li>
+<ul>
+<li>Executable code, i.e. phantomjs</li>
+</ul>
+<li>data</li>
+<ul>
+<li>Data, regardless of whether its raw or processed from some script (there&#8217;s a big gray area inbetween those seemingly distinguishable two things</li>
+</ul>
+<li>figures</li>
+<ul>
+<li>One folder per figure, usually containing an html file for plotting and the files output from the script above. But I also put readymade figures, and videos (see blog post on .webm format***) in here.</li>
+</ul>
+<li>lib</li>
+<ul>
+<li>Common files, at the moment all Javascript</li>
+</ul>
+<li>presentations</li>
+<ul>
+<li>Presentations, in the case of Impress.js (see below), this is a simple HTML file which can reference the figures using simple relative paths</li>
+</ul>
+<li>scripts</li>
+<ul>
+<li>Scripts for doing stuff &#8211; e.g. the Python script for outputting the images and a script for generating screenshots from SUMO. I suppose the distinction between this and lib is that things in lib should be referenced whereas things in here should be run.</li>
+</ul>
+<li>text</li>
+<ul>
+<li>Editable text &#8211; LaTeX files live in here</li>
+</ul>
+</ul>
+<p>So now, in theory, I can very quickly establish what data the figures in my thesis and presentations are based on, and always have the latest figure for a particular topic to hand. One advantage of keeping as many things as possible in text is that you can use the same editor for all of them, whether it be a text editor, an IDE, or a mobile app (I use <a href="https://itunes.apple.com/en/app/plaintext-dropbox-text-editing/id391254385?mt=8">PlainText</a> on the iPad).</p>
+<p>In case this system resonates with you in any way, you can download a sample archive containing all the necessary bits and pieces (apart from the additions to your Python environment) <a href="/files/Research.zip">here</a>. Please note that the PhantomJS/CairoSVG part is only tested on Mac and the PhantomJS binary under <code>/bin</code> is the Mac version. In any case its probably worthwhile updating PhantomJS, reveal.js and D3.js to the latest versions after you download. </p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

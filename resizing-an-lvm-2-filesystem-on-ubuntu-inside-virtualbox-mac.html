@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Resizing an LVM 2 filesystem on Ubuntu inside Virtualbox (Mac)</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="Problem 1, VirtualBox can’t resize this kind of Linux volume, so, on the Mac: Create a new HD (for me, ~10G) VBoxManage createhd –filename..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/resizing-an-lvm-2-filesystem-on-ubuntu-inside-virtualbox-mac.html" rel="bookmark"
+             title="Permalink to Resizing an LVM 2 filesystem on Ubuntu inside Virtualbox (Mac)">Resizing an LVM 2 filesystem on Ubuntu inside Virtualbox (Mac)</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-09-07T07:55:00+02:00">
+                Published: 07/09/2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/os-x.html">OS X</a> <a href="/tag/hard-disk.html">Hard Disk</a> </p>
+</footer><!-- /.post-info -->        <p>Problem 1, VirtualBox can&#8217;t resize this kind of Linux volume, so, on the Mac:</p>
+<p>Create a new HD (for me, ~10G)<br />
+VBoxManage createhd &#8211;filename Ubuntu.vdi &#8211;size 10000<br />
+Copy contents<br />
+VBoxManage clonehd CartoDB.vdi Ubuntu.vdi &#8211;existing</p>
+<p>Then, Download GParted ISO, latest version so that you can resize LVM volumes<br />
+Add as CD volume to the machine and boot it, Gparted runs<br />
+Deactivate the volume, and resize to fill space, apply changes<br />
+Shutdown, ensure CD is no longer mounted in VirtualBox, reboot to real Ubuntu</p>
+<p>Then, back in real Ubuntu (this is live resizing, use at your own risk!)<br />
+sudo lvextend /dev/lubuntu-vg/root /dev/sda5<br />
+sudo resize2fs  /dev/mapper/lubuntu&#8211;vg/root</p>
+<p>Done!</p>
+<p>Cobbled together from:</p>
+<p>http://trivialproof.blogspot.de/2011/01/resizing-virtualbox-virtual-hard-disk.html</p>
+<p>http://www.howtogeek.com/114503/how-to-resize-your-ubuntu-partitions/</p>
+<p>http://blog.dhampir.no/content/resizing-an-ext3-filesystem-on-an-lvm</p>
+<p>http://serverfault.com/questions/501895/used-vgextend-lvextend-to-add-addtional-8gb-space-but-it-is-not-reflected-in-df</p>
+<p>&#8230;and quite possibly a few others</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>
