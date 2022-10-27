@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Smart Meter adventures with a helping of Power-Over-(throttled)-Ethernet</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="On a recent trip to England, I was intrigued as a friend casually showed me his smart meter. It wasn't a big electricity meter, it was just a..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/smart-meter-over-poe-ethernet.html" rel="bookmark"
+             title="Permalink to Smart Meter adventures with a helping of Power-Over-(throttled)-Ethernet">Smart Meter adventures with a helping of Power-Over-(throttled)-Ethernet</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2022-10-27T12:00:00+02:00">
+                Published: 27/10/2022
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/electricity.html">electricity</a> <a href="/tag/energy.html">energy</a> <a href="/tag/ethernet.html">ethernet</a> <a href="/tag/raspi.html">raspi</a> <a href="/tag/iot.html">iot</a> <a href="/tag/smart-home.html">smart home</a> </p>
+</footer><!-- /.post-info -->        <p>On a recent trip to England, I was intrigued as a friend casually showed me
+his smart meter. It wasn't a big electricity meter, it was just a little
+display visualising his electricity usage. I assume the actual heavy duty
+electrical stuff was somewhere else, and I would imagine that he doesn't have
+to manually read his meter and send in the number like we do here, or let
+someone in to read it like my parents used to do years ago.</p>
+<p>This got me wondering about whether we could get a smart meter. This is not so easy
+or cheap in Germany (you have to either be a big consumer or find a meter-provider
+or electricity provider who does them) so then I wondered if
+our electricity meter, which is fairly
+new and digital, could be made "smart". On closer inspection, it actually claims
+to be smart. The smartness, from a user perspective though, seems to end with it
+having a digital display.</p>
+<p>There is an entertaining video about the German effort to install so-called
+digital meters <a href="https://www.youtube.com/watch?v=aqHauk3bNFA">here</a> (in German).</p>
+<p>Fortunately, we don't have to get a PIN from our electricity network provider
+or provide it via torchlight to proceed, but that didn't mean it was going to be
+plain sailing either.</p>
+<p>It became clear fairly quickly, that the meter has an Infra-Red (IR) interface
+for exchanging data. The window for this has a magnetic ring so that you can easily and even
+permanently attach a transceiver. There are lots of eBay sellers happy to sell you one.
+However, <a href="https://www.ebay.de/itm/204123975303">one seller in particular</a> offers to
+build you a fuller solution including forwarding the data if you tell him
+the meter type. I owe this guy a lot of thanks for exchanging a lot of messages with
+me even though it didn't lead to a sale. We established with some simple debugging (e.g.,
+holding a phone camera up to the IR-window), that this meter did not by itself
+output the data. It would need something to tell it to send data. Furthermore,
+there were hints out there that the IR LED might be very weak. This put me off a self-built
+Arduino solution, I wanted to be able to experiment easily, so went for
+<a href="https://www.ebay.de/itm/313884760667">this USB transceiver</a> so I could easily test
+with a Linux laptop.</p>
+<p>Here you can see it attached to the meter:</p>
+<p><img src="/files/meter_usb.jpg" style="width: 50%;"></p>
+<p>The general problem at first was that not many people seem to have this meter
+(Logarex LK13BD), and there
+is a fancier version (Logarex LK13BE) that is quite different. I also have the suspicion that
+the same meter might come set up in different ways. In the end, I found the right
+sequence of commands in the <a href="http://automaten-karl.de/blog/?p=914#div-comment-18">comments thread</a>
+of <a href="http://automaten-karl.de/blog/?p=914">an article</a> from someone working
+with the same meter. My huge thanks to the author of that blog post
+because it was evidence that this could be done and also contained (combined with the comment)
+the crucial information needed to get going.
+I was pretty beside myself with excitement when
+<code>cat /dev/ttyUSB0</code> finally yielded some content:</p>
+<div class="highlight"><pre><span></span><code>/LOG4LK13BD202015
+
+000
+
+C.1.0(06135975)
+
+0.0.0(001LOG0006135975)
+
+F.F(0000)
+
+1.8.0(011788.687*kWh)
+
+C.7.1(00000000)
+
+C.7.2(00000000)
+
+C.7.3(00000000)
+
+0.2.1(ver.02, 150228, 671A)
+
+C.2.1(1601130840)
+
+C.2.9(1601130840)
+</code></pre></div>
+
+<p>To summarise that part, you need this command to set up:</p>
+<p><code>stty -F /dev/ttyUSB0 300 -parodd cs7 -cstopb parenb -ixoff -crtscts -hupcl -ixon -opost -onlcr -isig -icanon -iexten -echo -echoe -echoctl -echoke</code></p>
+<p>This command in a terminal to sit and listen:</p>
+<p><code>cat /dev/ttyUSB0</code></p>
+<p>And these commands (doing the second one quickly right after the first) to tell the meter to output data:</p>
+<p><code>echo -n -e '\x2F\x3F\x21\x0D\x0A' &gt; /dev/ttyUSB0</code></p>
+<p><code>echo -n -e '\x06\x30\x30\x30\x0D\x0A' &gt; /dev/ttyUSB0</code></p>
+<p>And it's probably easiest if you do all of this as <code>root</code> (<code>sudo su -</code>)</p>
+<p>I had also been trying to get the data to go into some nice web interface and at first tried <a href="https://www.iobroker.net/">ioBroker</a>
+along the lines of <a href="https://digitaldad.de/2022/03/13/iobroker-stromzaehler-auslesen/">this post</a>.
+It had limited options though and I didn't get it to work. What looked
+more hopeful was the <a href="https://www.volkszaehler.org/">Volkszähler</a> ("people's meter", in English) project as the
+<a href="https://wiki.volkszaehler.org/_export/code/hardware/channels/meters/power/logarex_lk13b?codeblock=0">sample configuration file</a>
+from <a href="https://wiki.volkszaehler.org/hardware/channels/meters/power/logarex_lk13b">this webpage</a>
+for their logger component had the same serial commands.
+I couldn't get the logger part (<a href="https://github.com/volkszaehler/vzlogger">VZLogger</a>)
+up and running on a modern Ubuntu, but also didn't try hard,
+as Volkszähler have a <a href="https://wiki.volkszaehler.org/howto/raspberry_pi_image">Raspberry PI image</a>
+for the whole set up and it was clear that was
+going to be the solution. So for now I assumed this would work and had to deal with the next issue,
+how to get the data, or rather how to power and communicate with a Raspi two floors down in the
+basement.</p>
+<p>Fortunately we have a cable that goes down there, originally intended as a phone line
+(we don't have a proper phone line, we have a cable internet provider that does phone
+via the modem). We had it extended to the part of the basement that's ours at the time the place
+was being finished. So the goal was to break this connection in the middle and use the connection
+and in addition put power over ethernet (PoE) to power the Raspi. There are power sockets down there,
+but they get paid for by everyone, and that wouldn't be fair. Very fortunately, the two sides of the cable
+were already in two halves and sitting joined in a little junction box that was more or
+less perfectly positioned for adding the Raspi with the USB transceiver.</p>
+<p>First a step back. Ethernet over a phone cable that isn't even really proper twisted pair? Well,
+that does work as long as you have four cores and if you throttle the connection down to 10MBps. Equipment
+will <em>not</em> figure that out for you, you need to insert something that will only speak 10MBps.
+Upstairs we have an old 10MBps hub which does the trick.
+Would PoE work over telephone cable? I ordered an <a href="https://www.ebay.de/itm/314132134571">injector</a> (power + LAN on one side, LAN output on the
+other side) from eBay and a <a href="https://www.ebay.de/itm/175392334761">separator</a> (LAN in one side, 5V USB Micro plug plus LAN RJ45 plug on the other
+side) for the Raspi. A quick test showed that this also worked.</p>
+<p>We already had a Raspi lying around, which needed a MicroSD card. I made the mistake of buying one
+that is too big at first, so had to swap it with the one in my phone which was also a bit
+on the small side. Getting the <a href="https://wiki.volkszaehler.org/howto/raspberry_pi_image">Volkszähler image</a>
+written to the SD card using a Mac was also not easy
+but worked out with
+<a href="https://www.tweaking4all.com/software/macosx-software/applepi-baker-v2/#DownloadApplePiBaker">ApplePi-Baker (v1.x version!)</a>
+in the end. I changed the <code>/etc/vzlogger.conf</code> file to have the
+<a href="https://wiki.volkszaehler.org/_export/code/hardware/channels/meters/power/logarex_lk13b?codeblock=0">sample configuration</a>
+from <a href="https://wiki.volkszaehler.org/hardware/channels/meters/power/logarex_lk13b">this webpage</a>.
+Because we wanted the ethernet connection to still be carried back out
+to the other room in the basement, I attached a USB ethernet port and had to look up
+how to do bridging
+(<a href="https://blog.uni-koeln.de/rrzk-knowhow/2021/11/22/mal-eben-in-eine-netzwerk-verbindung-hineinschauen-level2-bridge-auf-einem-raspberry-pi/">here</a>)
+and configuring the speeds etc. on ethernet ports (more on that below).
+Upstairs, away from telephone cable, everything seemed to work well, except I didn't know yet if the
+VZLogger part would work.</p>
+<p>It was finally time to install the stuff for real. Crimping RJ45 connectors on telephone
+cable is a real pain, and in the end I attached an existing connector with thinner wire
+on to one half which had cores that were basically too thick to go into an RJ45 plug.</p>
+<p>The initial setup worked immediately as far as the meter reading, communication and power
+was concerned. The only troublesome parts were figuring out the "resolution" parameter
+for the Volkszähler channel (<a href="https://www.photovoltaikforum.com/thread/150250-vz-und-auslesen-des-ehz-logarex-lk13bd/?postID=2146324#post2146324">turns out it should just be 1</a>,
+as the meter reads in kWh) and getting
+the ethernet bridge to work. This may or may not have had something to do with the not-well-crimped
+cable, or it may have just been bad configuration. In any case, after 
+checking things over using
+<a href="http://www.microhowto.info/troubleshooting/troubleshooting_ethernet_bridging_on_linux.html">a nice article on bridge debugging</a>
+it seemed the Linux-Bridge part was OK. There was some connection (flashing lights)
+happening but no traffic possible. In the end what seemed to work was to set the
+ethernet ports to both be at 10MBps (already done before in the intial setup) with no autonegotiation
+on the half that went up to the hub upstairs and with autonegotiation ON on thw half that continued
+to the other room in the basement. And both ports set to FULL duplex and not half. You can
+do this with ethtool (helpful guide <a href="https://phoenixnap.com/kb/ethtool-command-change-speed-duplex-ethernet-card-linux">here</a>):</p>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">ethtool</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="n">eth0</span><span class="w"> </span><span class="n">autoneg</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">duplex</span><span class="w"> </span><span class="n">full</span><span class="w"></span>
+<span class="n">sudo</span><span class="w"> </span><span class="n">ethtool</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="n">eth1</span><span class="w"> </span><span class="n">autoneg</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">duplex</span><span class="w"> </span><span class="n">full</span><span class="w"></span>
+</code></pre></div>
+
+<p>And preserve it all in <code>etc/network/interfaces</code> like this
+(helpful link <a href="https://serverfault.com/questions/813781/how-to-persist-ethtool-settings-through-reboot-on-debian-8">here</a>,
+together with the article on
+<a href="https://blog.uni-koeln.de/rrzk-knowhow/2021/11/22/mal-eben-in-eine-netzwerk-verbindung-hineinschauen-level2-bridge-auf-einem-raspberry-pi/">bridging</a>
+ above):</p>
+<div class="highlight"><pre><span></span><code><span class="n">auto</span><span class="w"> </span><span class="n">lo</span><span class="w"></span>
+<span class="n">iface</span><span class="w"> </span><span class="n">lo</span><span class="w"> </span><span class="n">inet</span><span class="w"> </span><span class="n">loopback</span><span class="w"></span>
+
+<span class="n">auto</span><span class="w"> </span><span class="n">eth0</span><span class="w"></span>
+<span class="n">iface</span><span class="w"> </span><span class="n">eth0</span><span class="w"> </span><span class="n">inet</span><span class="w"> </span><span class="n">manual</span><span class="w"></span>
+
+<span class="n">auto</span><span class="w"> </span><span class="n">eth1</span><span class="w"></span>
+<span class="n">iface</span><span class="w"> </span><span class="n">eth1</span><span class="w"> </span><span class="n">inet</span><span class="w"> </span><span class="n">manual</span><span class="w"></span>
+
+<span class="n">auto</span><span class="w"> </span><span class="n">br0</span><span class="w"></span>
+<span class="w">   </span><span class="n">iface</span><span class="w"> </span><span class="n">br0</span><span class="w"> </span><span class="n">inet</span><span class="w"> </span><span class="n">dhcp</span><span class="w"></span>
+<span class="w">   </span><span class="n">bridge_ports</span><span class="w"> </span><span class="n">eth0</span><span class="w"> </span><span class="n">eth1</span><span class="w"></span>
+<span class="w">   </span><span class="n">post</span><span class="o">-</span><span class="n">up</span><span class="w"> </span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ethtool</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="n">eth0</span><span class="w"> </span><span class="n">autoneg</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">duplex</span><span class="w"> </span><span class="n">full</span><span class="w"></span>
+<span class="w">   </span><span class="n">post</span><span class="o">-</span><span class="n">up</span><span class="w"> </span><span class="o">/</span><span class="n">sbin</span><span class="o">/</span><span class="n">ethtool</span><span class="w"> </span><span class="o">-</span><span class="n">s</span><span class="w"> </span><span class="n">eth1</span><span class="w"> </span><span class="n">autoneg</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">duplex</span><span class="w"> </span><span class="n">full</span><span class="w"></span>
+</code></pre></div>
+
+<p>Here's a photo of the cabling <em>before adjustments and cleaning up</em>:</p>
+<p><img src="/files/raspi_cabling.jpg" style="width: 50%;"></p>
+<p>And here's a screenshot showing our electricity usage!</p>
+<p><img alt="" src="/files/volkszaehler_output.png"></p>
+<p>For extra fun, I followed <a href="https://wiki.volkszaehler.org/hardware/channels/sensors/sensorless_outdoor_temp">these instructions</a>
+to add outdoor temperature, humidity and air pressure
+curves. I've given Birgit the job of building an indoor temperature/humidity monitor using
+an old Arduino-style-with-WiFi board we have. I'd love to see if we can get our water/warm water/heating
+consumption measured in realtime somehow as well.</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>
