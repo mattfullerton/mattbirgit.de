@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>DIY Solar Power</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="After a lot of research, thinking, confusion, finding out how much weight our garage roof can take, looking at a local subsidy scheme, finding out..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/diy-solar.html" rel="bookmark"
+             title="Permalink to DIY Solar Power">DIY Solar Power</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2022-11-06T12:00:00+01:00">
+                Published: 06/11/2022
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/diycraft.html">DIY/Craft</a>.</p>
+<p>tags: <a href="/tag/electricity.html">electricity</a> <a href="/tag/energy.html">energy</a> </p>
+</footer><!-- /.post-info -->        <p>After a lot of research, thinking, confusion, finding out how much weight our garage roof can take,
+looking at a local subsidy scheme, finding out said scheme had run out of funding for the year, we finally took the plunge
+and ordered an (almost) all-in-one plugin-in-solar kit for flat-roof mounting to generate up to the maximum-allowed 600W.</p>
+<p>The first challenge is to get your head around the fact that you can just plug in a power <em>generation</em> source into a socket,
+and that everything will be just fine. That really is fine. One important thing is that the part (the inverter, see below)
+that puts out the 230V will only do that when it itself see's power on the power socket side. If it didn't do this,
+you would have high voltage AV on the plug when it's not plugged in, and that would be a problem.</p>
+<p>The next challenge is to understand what parts you need and how to mount them. The popular option is to hang panels from your balcony.
+If I'm honest, I still don't really know how that works parts-wise. Fortunately there are kits, and the mounting principle for flat roofs
+is very simple. Even then though you have to figure out which electrical parts you need. This bit by now I do understand, though you need
+to be careful that you have the right number of inputs on the invert (see below) for the panels you have bought.</p>
+<p>So, fortunately we had the almost all-in-one kit. The only part you had to organise
+yourself was concrete slabs to weigh the panels down. The number you need depends on the surface
+and the area of the country you live in.
+The kit (from <a href="https://www.yuma.de/">yuma.de</a>, which I can highly recommend), contains the two twin-panels, 20° stands for each which include the
+rubbery stands to place e.g. concrete slabs on top of to stop them moving in the wind. The electrical parts are also important:
+a 600W inverter (Solar DC to Mains voltage) and a long thick cable to plug in into the wall socket.</p>
+<p>We had bought the kit that has a maximum solar power of 730W. This should mean that we can generate the full 600W even under
+less than ideal sun conditions.</p>
+<p>The limit of 600W is a German thing, I think the EU general limit is 800W. This being Germany, there is a bit of paperwork too,
+but Yuma do their best to help with this, providing filled out versions. The only thing you have to do from scratch is the registration
+in the German "Marktstammregister" online which is just a lot of online web form filling.</p>
+<p>As I have understood it, the point at the end of the day is that 600W is the maximum you can generate without needing to have it
+metered and be subject to the full German bureaucracy of power generation. Assuming you have a meter that doesn't roll backwards (and the
+electricity company will replace it if you do) the effect will be to bring your power usage down to a minimum of 0W - you will feed power
+into the grid at some point, but you won't know how much or get paid for it.</p>
+<p>Here is a picture of the full setup on top of the roof:</p>
+<p><img src="/files/solar.jpeg" style="width: 70%;"></p>
+<p>The worst part was getting the gigantic panels up there!</p>
+<p>Even at this end of the year (last weekend - so end of October) you could see a big difference (see photo below,
+from about 8:30am onwards). Suddenly we have periods where our electricity usage
+goes down to 0W, even though there is still stuff on. It'll get really interesting next Spring/Summer.</p>
+<p><img src="/files/volkszaehler-solarimpact.png" style="width: 85%;"></p>
+<p>Of course, just because there is no official metering happening, it would still be nice to know how much we are generating
+(which, if you think it through, is not the same as measuring how much you are feeding back to the grid - all three measurements would
+be interesting in fact...). The inverter manufacturer offer a USB dongle and proprietary cloud system for this. The dongle is expensive and
+I'd like to have control of the data/feed it into the same system as our electricity meter ("Volkszaehler" - see <a href="smart-meter-over-poe-ethernet.html">this other post</a>).
+Fortunately, some people have already figured out how to do it with an Arduino, and I've just discovered that Powerline ethernet can
+reach our garage (separate from the main building) so the next project is already underway...</p>
+<p>For German readers: I can also recommend the website <a href="https://muenchen.solar2030.de/">MuenchenSolar2030</a> - their online
+seminar helped me understand the whole thing, they place their materials online and have a list of suppliers which led
+me to Yuma. You can also email them for help and they answer.</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>

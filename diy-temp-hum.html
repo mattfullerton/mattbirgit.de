@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        <title>Temperature and Humidity monitoring</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="description" content="The slightly smarter home topic continues. In this coming winter many of us probably want to understand our energy usage and home climate a bit..." />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <a href="/index.html" id="sitename" title="Start page">
+                        <div>
+                                <h1>Fullertons' Blog</h1> 
+                        </div>
+                </a>
+                <nav><ul>
+<li><a href="/category/diycraft.html">DIY/Craft</a></li><li><a href="/category/food.html">Food</a></li><li><a href="/category/kids-tech.html">Kids' Tech</a></li><li><a href="/category/mobility.html">Mobility</a></li><li><a href="/category/personal.html">Personal</a></li><li><a href="/category/softwareitdata.html">Software/IT/Data</a></li><li><a href="/category/travel.html">Travel</a></li>                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" >
+  <div class="body first">
+    <article>
+      <header>
+        <h1 class="entry-title">
+          <a href="/diy-temp-hum.html" rel="bookmark"
+             title="Permalink to Temperature and Humidity monitoring">Temperature and Humidity monitoring</a></h1>
+      </header>
+  
+      <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2022-11-06T12:00:00+01:00">
+                Published: 06/11/2022
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/matt.html">Matt</a>
+        </address>
+<p>In <a href="/category/softwareitdata.html">Software/IT/Data</a>.</p>
+<p>tags: <a href="/tag/iot.html">iot</a> <a href="/tag/smart-home.html">smart home</a> <a href="/tag/arduino.html">arduino</a> <a href="/tag/sensors.html">sensors</a> </p>
+</footer><!-- /.post-info -->        <p>The slightly smarter home topic continues. In this coming winter many of us probably want to understand
+our energy usage and home climate a bit better. We have two analog humidity gauges and they both
+seem a bit suspect. And to be honest, now that we have our own little <a href="smart-meter-over-poe-ethernet.html">Volkszaehler server</a>
+in the basement, I wanted to have some data on indoor temperature and humidity and not just the outdoor data (which,
+as far as I know, is coming from modelled-weather sources and not an actual weather station) and see a few more interesting
+things on the page with all the traces.</p>
+<p>We have a lot of old bits and pieces in our basement - sensors and Arduino-compatible boards, even another Raspberry PI in
+addition to the one we used for the Volkszaehler. So I wanted to see if we could use some of that up instead of needing
+to buy more stuff.</p>
+<p>I found a "Pretzel board" Arduino-like board with ESP WLAN from Franzis. More details on that
+<a href="https://www.mikrocontroller-elektronik.de/wifi-board-nanoesp-bzw-pretzel-board/">here (in German)</a>.
+I also found a <a href="https://support.sodaq.com/Boards/Autonomo/Examples/tph/">"TPH board"</a> for
+the Grove sensor system which contains an SHT21 temperature/humidity
+sensor and a BMP180 temperature/pressure sensor. I'm not very good at this stuff, but after a lot of reading and
+trial and error I figured out how to wire the two together and find the code/libraries online to make it all work.</p>
+<p>I wanted to send to our <a href="smart-meter-over-poe-ethernet.html">Volkszaehler server</a> instead of Thingspeak, and the experience
+in that post of HTTP <code>POST</code> requests to add data was helpful, but I had success by using the simple <code>GET</code> request
+detailed in their <a href="https://wiki.volkszaehler.org/development/api/reference">API docs</a>
+(you just specify the operation in the GET request to get around the REST API purism - I'm
+very grateful for their pragmatism there).</p>
+<p>You can find the cleaned-up source code <a href="https://github.com/mattfullerton/arduino_sketches/blob/main/dht_temp_humidity_pressure_wlan_volkszaehler/dht.ino">here</a>. You need to have the Sodaq SHT2x library and the Sodaq BMP085 library if
+you want the pressure data (I didn't use the BMP180 data at all in my project). I had to select the ATMega328P (Old Bootloader)
+board. The other includes should automatically work. The functions for the ESP are from the Conrad Advent Calendar project and seem
+to still be available <a href="https://iot.fkainka.de/en/day-19">here</a>. The code for using the Sodaq libraries
+is based on their example <a href="https://support.sodaq.com/Boards/Autonomo/Examples/tph/">here</a>.</p>
+<p>The <a href="https://support.sodaq.com/Boards/Autonomo/Examples/autonomo_tph_wiring.jpg">wiring diagram</a>
+there is also important (3.3V, not 5V!) but for the Pretzel board, the pins
+are A4 for SDA and A5 for SCL. It seems the include of <code>Wire.h</code> is the important part to make I2C
+work over those pins for this type of Arduino-compatible board. In general, as described in the page
+referenced above, you can look for info on the Arduino Nano.</p>
+<p>A serious hiccup I had was that the board only very sporadically wanted to connect to our WLAN.
+With internet sharing from a Mac it worked fine. In the end it seemed creating a separate SSID for
+2.4GHz and setting that network to only do older-style WLAN 802.11b/g worked.</p>
+<p>Below you can see the data being plotted. The big change is the the morning airing reducing the humidity.</p>
+<p><img src="/files/temp_hum_plot.png" style="width: 80%;"></p>
+<p>I added a function to disconnected from the WLAN because
+I didn't want it sitting connected all the time between the short data sends, and also didn't want to have to
+add monitoring/reconnect-if-disconnected code. A simple reconnect each time solved that well, for me.</p>
+<p>The monitor is still sitting in raw breadboard form in our hallway. I still need to set it up in a more tidy/compact way.</p>
+<p><img src="/files/temp_hum_breadboard.jpg" style="width: 80%;"></p>
+<p>Birgit is still talking about building a proper outdoor weather station, maybe that's be a topic for a future post.</p>
+      </div><!-- /.entry-content -->
+  
+    </article>
+  </div>
+</section>
+        <section id="extras">
+        </section><!-- /#extras -->
+        <footer id="copyright" class="body">
+                <p>
+                This blog is created with <a href="https://getpelican.com/">Pelican</a> built on <a href="https://www.python.org/">Python</a> using the <a href="https://codeberg.org/F_Thoma/NotMyIdea-Theme-Pelican">Not My Idea theme</a> with <a href="https://www.github.com/mattfullerton/NotMyIdea-Theme-Pelican">minor changes</a> and is kindly hosted by <a href="https://pages.github.com/">GitHub Pages</a> for free. The Font Roboto is licensed under the <a href="/theme/static/fonts/Apache-LICENSE-2.0.txt">Apache License, Version 2.0</a>. You can find the project <a href="https://github.com/googlefonts/roboto">here</a>. The Font Yanone Kaffeesatz is licensed under the <a href="/theme/static/fonts/Yanone_Kaffeesatz-License-OFL.txt">SIL Open Font License, Version 1.1</a> and copyrighted by The Yanone Kaffeesatz Project Authors.  You can find the project <a href="https://github.com/alexeiva/yanone-kaffeesatz">here</a>. Thank you to all of the owners and maintainers of these technologies for making self-hosted blogging so easy!</p>
+        </footer><!-- /#copyright -->
+
+</body>
+</html>
